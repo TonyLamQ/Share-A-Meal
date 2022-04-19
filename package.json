@@ -1,0 +1,23 @@
+{
+  "name": "programmeren-4-node-server",
+  "version": "0.0.1",
+  "description": "Programmeren 4 SAM server",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://gitlab.com/TonyLamQ/programmeren4-node-server.git"
+  },
+  "author": "TonyLamQ",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://gitlab.com/TonyLamQ/programmeren4-node-server/issues"
+  },
+  "homepage": "https://gitlab.com/TonyLamQ/programmeren4-node-server#readme",
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  }
+}
