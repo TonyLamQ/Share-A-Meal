@@ -7,6 +7,8 @@ var logger = require("morgan");
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
 
+const birds = require("./routes/birds");
+
 var app = express();
 
 // view engine setup
@@ -21,7 +23,7 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
-
+app.use("/birds", birds);
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
   next(createError(404));
@@ -39,3 +41,19 @@ app.use(function (err, req, res, next) {
 });
 
 module.exports = app;
+
+// sam.get("/", (req, res) => {
+//   res.send("Hello World!");
+// });
+
+// app.post("/", (req, res) => {
+//   res.send("Got a POST request");
+// });
+
+// app.put("/user", (req, res) => {
+//   res.send("Got a PUT request at /user");
+// });
+
+// app.delete("/user", (req, res) => {
+//   res.send("Got a DELETE request at /user");
+// });

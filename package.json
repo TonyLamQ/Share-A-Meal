@@ -15,7 +15,9 @@
   },
   "description": "To make it easy for you to get started with GitLab, here's a list of recommended next steps.",
   "main": "index.js",
-  "devDependencies": {},
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://gitlab.com/TonyLamQ/programmeren4-node-server.git"
