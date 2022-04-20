@@ -62,7 +62,7 @@ app.get("/api/meals/:mealId", (req, res) => {
   }
 });
 
-app.all("*", (req, res, next) => {
+app.all("*", (req, res) => {
   res.status(401).json({
     status: 401,
     result: "End-point not found",
