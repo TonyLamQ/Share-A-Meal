@@ -7,7 +7,7 @@ let controller = {
             let user = req.body;
             let{firstName, lastName, street, city, password, emailAddress} = user;
             try{
-                assert(typeof firstName === 'string', 'Title is not found or must be a string');
+                assert(typeof firstName === 'string', 'firstname is not found or must be a string');
                 assert(typeof lastName === 'string', 'lastName is not found or must be a string');
                 assert(typeof street === 'string', 'street is not found or must be a string');
                 assert(typeof city === 'string', 'city is not found or must be a string');
@@ -17,8 +17,8 @@ let controller = {
             } 
             catch(err) {
                 const error = {
-                    Status: 400,
-                    Message: err.toString(),
+                    status: 400,
+                    result: err.message,
                 };
                 next(error);
             }
