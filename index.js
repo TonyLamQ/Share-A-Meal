@@ -12,13 +12,6 @@ app.all('*', (req, res, next) => {
   next();
 });
 
-app.get('/', (req, res) => {
-  res.status(200).json({
-    status: 200,
-    result: "Welcome to the share-a-meal server"
-  });
-});
-
 app.use(router);
 
 app.all("*", (req, res) => {
