@@ -13,13 +13,18 @@ app.all('*', (req, res, next) => {
 });
 
 app.use(router);
-
 app.all("*", (req, res) => {
   res.status(401).json({
     status: 401,
     result: "End-point not found.",
   })
 })
+
+//error handler
+app.use((err, req, res, next) => {
+  res.status(err.status).json(err);
+})
+
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}.`)
 });

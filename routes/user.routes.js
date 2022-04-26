@@ -10,7 +10,7 @@ router.get('/', (req, res) => {
 });
 
 //Post an user if email isnt already taken
-router.post('/api/user', userController.addUser);
+router.post('/api/user', userController.ValidateUser, userController.addUser);
 
 //Get a all users
 router.get('/api/user', userController.getAllUsers);
@@ -24,6 +24,6 @@ router.get('/api/user/:userId',userController.getUserById);
 //Delete a user by id
 router.delete('/api/user/:userId', userController.deleteUser);
 
-router.put('/api/user/:userId', userController.updateUser);
+router.put('/api/user/:userId', userController.ValidateUser, userController.updateUser);
 
 module.exports = router;

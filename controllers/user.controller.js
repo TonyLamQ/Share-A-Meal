@@ -1,10 +1,31 @@
 let database = [];
 let id = 0;
+const assert = require('assert');
 
 let controller = {
+        ValidateUser:(req, res, next)=>{
+            let user = req.body;
+            let{firstName, lastName, street, city, password, emailAddress} = user;
+            try{
+                assert(typeof firstName === 'string', 'Title is not found or must be a string');
+                assert(typeof lastName === 'string', 'lastName is not found or must be a string');
+                assert(typeof street === 'string', 'street is not found or must be a string');
+                assert(typeof city === 'string', 'city is not found or must be a string');
+                assert(typeof password === 'string', 'password is not found or must be a string');
+                assert(typeof emailAddress === 'string', 'email is not found or must be a string');
+                next();
+            } 
+            catch(err) {
+                const error = {
+                    Status: 400,
+                    Message: err.toString(),
+                };
+                next(error);
+            }
+        },
     addUser:(req, res) => {
-        let email = req.body.Email;
-        if (database.filter((item) => item.Email == email).length > 0) {
+        let email = req.body.emailAddress;
+        if (database.filter((item) => item.emailAddress == email).length > 0) {
             res.status(400).json({
                 Status: 400,
                 Message: `This email is already taken.`
@@ -42,7 +63,7 @@ let controller = {
       })
     },
 
-    getUserById:(req,res)=>{
+    getUserById:(req,res, next)=>{
         const userId = Number(req.params.userId)
         let user = database.filter((item) => item.id == userId);
         if (user.length > 0) {
@@ -53,10 +74,11 @@ let controller = {
           })
         }
         else {
-          res.status(404).json({
-            status: 404,
-            result: `User with ID ${userId} not found.`,
-          });
+            const error = {
+                status: 404,
+                result: `User with ID ${userId} not found.`,
+            }
+            next(error);
         }
     },
 
@@ -90,11 +112,11 @@ let controller = {
 
     updateUser:(req,res)=>{
         const id = Number(req.params.userId)
-        let email = req.body.Email;
+        let email = req.body.emailAddress;
         let user = database.filter((item) => item.id == id);
       
         if (user.length > 0) {
-          if (database.filter((item) => item.Email == email).length > 0) {
+          if (database.filter((item) => item.emailAddress == email).length > 0) {
               res.status(400).json({
                   Status: 400,
                   Message: `This email is already taken.`
