@@ -4,7 +4,8 @@ const port = process.env.PORT || 3000
 
 const BodyParser = require('body-parser');
 app.use(BodyParser.json());
-const router = require('./routes/user.routes');
+
+const router = require('./src/routes/user.routes');
 
 app.all('*', (req, res, next) => {
   const method = req.method;
