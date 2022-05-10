@@ -12,13 +12,13 @@ describe('Manage users /api/user', () => {
             database = [];
             done();
         })
-        it('TC-201 When a required input is missing, a valid error should be returned.', (done) => {
+        it('TC-201-1 When a required input is missing, a valid error should be returned.', (done) => {
             chai
             .request(server)
             .post('/api/user')
             .send({
                 //firstName is missing
-                lastName:'Jan',
+                lastName:'Nachtwacht',
                 street:'Lombardijen',
                 city: 'Rotterdam',
                 password:'wa',
@@ -33,8 +33,26 @@ describe('Manage users /api/user', () => {
                 done();
             })
         })
-        it('TC-202 Other test example',()=>{
-
+        it('TC-201-5 User is successful registered/added.',(done)=>{
+            chai
+            .request(server)
+            .post('/api/user')
+            .send({
+                firstName: 'Jan',
+                lastName:'Nachtwacht',
+                street:'Lombardijen',
+                city: 'Rotterdam',
+                password:'wa',
+                emailAddress:'wa'
+                
+            })
+            .end((err, res)=>{
+                res.should.be.an('object');
+                let {status, result} = res.body;
+                status.should.equals(200);
+                result.should.be.a('array').that.equals(result);
+                done();
+            })
         })
     })
 })

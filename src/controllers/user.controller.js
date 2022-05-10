@@ -48,12 +48,18 @@ let controller = {
           } else {
        
           // Don't use the connection here, it has been returned to the pool.
+          const id = results.insertId
           console.log("Results = ", results.affectedRows);
+          
+            const result = { 
+              id,
+              ...req.body
+            }
 
           if (results.affectedRows == 1){
             res.status(200).json({
               status: 200,
-              results: `User has been created.`,
+              results: result,
             })
           } else {                   
             const error = {
