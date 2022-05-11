@@ -11,10 +11,7 @@ const { end } = require('../../database/dbConnection');
 chai.should();
 chai.use(chaiHttp);
 
-// const CLEAR_MEAL_TABLE = 'DELETE IGNORE FROM `meal`;'
-// const CLEAR_PARTICIPANTS_TABLE = 'DELETE IGNORE FROM `meal_participants_user`;'
-const CLEAR_USER_TABLE = 'DELETE IGNORE FROM `user`;'
-const CLEAR_DB = CLEAR_USER_TABLE 
+const CLEAR_DB = 'DELETE IGNORE FROM `meal`; DELETE IGNORE FROM `meal_participants_user`; DELETE IGNORE FROM `user`;'
 
 describe('Manage users /api/user', () => {
 
