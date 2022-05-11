@@ -184,14 +184,14 @@ let controller = {
         if (err) throw err; // not connected!
        
         // Use the connection
-        const userId = Number(req.params.userId);
+        const id = Number(req.params.userId);
         const firstName = req.body.firstName;
         const lastname = req.body.lastName;
         const emailAddress = req.body.emailAddress;
         const password = req.body.password;
         const street = req.body.street;
         const city = req.body.city;
-        connection.query(`UPDATE user SET firstName= '${firstName}', lastName= '${lastname}', emailAdress= '${emailAddress}', password= '${password}', street= '${street}', city= '${city}' WHERE id = '${userId}'`, function (error, results, fields) {
+        connection.query(`UPDATE user SET firstName= '${firstName}', lastName= '${lastname}', emailAdress= '${emailAddress}', password= '${password}', street= '${street}', city= '${city}' WHERE id = '${id}'`, function (error, results, fields) {
           // When done with the connection, release it.
           connection.release();
        
@@ -205,17 +205,21 @@ let controller = {
           } else {
        
           // Don't use the connection here, it has been returned to the pool.
-          console.log("Results = ", results.affectedRows);
 
+          console.log("Results = ", results.affectedRows);
+          const result = { 
+            id,
+            ...req.body
+          }
           if (results.affectedRows == 1){
             res.status(200).json({
               status: 200,
-              results: `User with ID ${userId} has been updated.`,
+              results: result,
             })
           } else {                   
             const error = {
                 status: 400,
-                results: `User with ID ${userId} not found.`,           
+                results: `User with ID ${id} not found.`,           
           }
           next(error);
         }}
