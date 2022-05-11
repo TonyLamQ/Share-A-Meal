@@ -18,7 +18,7 @@ let controller = {
             catch(err) {
                 const error = {
                     status: 400,
-                    result: err.message,
+                    results: err.message,
                 };
                 next(error);
             }
@@ -104,7 +104,7 @@ let controller = {
     getUserProfile:(req,res)=>{  
         res.status(401).json({
         status: 401,
-        result: "End-Point is not realised.",
+        results: "End-Point is not realised.",
       })
     },
 
