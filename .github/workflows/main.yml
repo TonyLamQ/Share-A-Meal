@@ -15,7 +15,7 @@ jobs:
             DB_PORT: 3306
             DB_DATABASE: 2182138
             DB_USER: root
-            DB_PASSWORD: 
+            DB_PASSWORD: root
         services:
             mysql:
                 image: mysql:5.7
