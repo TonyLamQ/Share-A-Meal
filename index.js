@@ -19,7 +19,7 @@ app.use(router);
 app.all("*", (req, res) => {
   res.status(401).json({
     status: 401,
-    result: "End-point not found.",
+    results: "End-point not found.",
   })
 })
 
