@@ -41,7 +41,7 @@ let controller = {
          // Handle error after the release.
           if (error) {
             const error = {
-              status: 404,
+              status: 400,
               results: `The email: '${emailAddress}' already exists`,           
            }
            next(error);
