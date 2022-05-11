@@ -214,7 +214,7 @@ let controller = {
             })
           } else {                   
             const error = {
-                status: 404,
+                status: 400,
                 results: `User with ID ${userId} not found.`,           
           }
           next(error);
