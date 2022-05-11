@@ -17,3 +17,8 @@ jobs:
           heroku_email: ${{secrets.HEROKU_EMAIL}}
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
           heroku_app_name: "share-a-meal-programmeren-4"
+      - name: npm install, build and test
+        run: |
+        npm ci
+        npm test
+        
