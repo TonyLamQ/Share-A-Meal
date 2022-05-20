@@ -14,7 +14,7 @@ router.get('/', (req, res) => {
 router.post('/api/user', userController.ValidateUser, userController.addUser);
 
 //Get a all users
-router.get('/api/user', userController.getAllUsers);
+// router.get('/api/user', userController.getAllUsers);
 
 //Get a user profile(endpoint not realised yet)
 router.get('/api/user/profile', userController.getUserProfile);
@@ -27,7 +27,7 @@ router.delete('/api/user/:userId', userController.deleteUser);
 
 router.put('/api/user/:userId', userController.ValidateUser, userController.updateUser);
 
-router.get('/api/user', authController.validate, userController.getAllUsers)
+router.get('/api/user', authController.validateToken, userController.getAllUsers)
 router.get('/api/user/:id', authController.validate, userController.getAllUsers)
 
 module.exports = router;
