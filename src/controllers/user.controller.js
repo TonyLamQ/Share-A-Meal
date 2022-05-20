@@ -1,18 +1,19 @@
 const dbConn = require('../../database/dbConnection')
 const database = require('../../database/inmemdb')
 const assert = require('assert');
+// const { router } = require('../..');
 
 let controller = {
         ValidateUser:(req, res, next)=>{
             let user = req.body;
-            let{firstName, lastName, street, city, password, emailAddress} = user;
+            let{firstName, lastName, street, city, password, emailAdress} = user;
             try{
-                assert(typeof firstName === 'string', 'firstname is not found or must be a string');
+                assert(typeof firstName === 'string', 'firstName is not found or must be a string');
                 assert(typeof lastName === 'string', 'lastName is not found or must be a string');
                 assert(typeof street === 'string', 'street is not found or must be a string');
                 assert(typeof city === 'string', 'city is not found or must be a string');
                 assert(typeof password === 'string', 'password is not found or must be a string');
-                assert(typeof emailAddress === 'string', 'email is not found or must be a string');
+                assert(typeof emailAdress === 'string', 'emailAdress is not found or must be a string');
                 next();
             } 
             catch(err) {
@@ -31,7 +32,7 @@ let controller = {
         // Use the connection
         const firstName = req.body.firstName;
         const lastname = req.body.lastName;
-        const emailAddress = req.body.emailAddress;
+        const emailAddress = req.body.emailAdress;
         const password = req.body.password;
         const street = req.body.street;
         const city = req.body.city;
@@ -187,7 +188,7 @@ let controller = {
         const id = Number(req.params.userId);
         const firstName = req.body.firstName;
         const lastname = req.body.lastName;
-        const emailAddress = req.body.emailAddress;
+        const emailAddress = req.body.emailAdress;
         const password = req.body.password;
         const street = req.body.street;
         const city = req.body.city;

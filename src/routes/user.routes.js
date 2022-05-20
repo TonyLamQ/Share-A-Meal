@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 const userController = require('../controllers/user.controller.js');
+const authController = require('../controllers/auth.controller.js');
 
 router.get('/', (req, res) => {
   res.status(200).json({
@@ -25,5 +26,8 @@ router.get('/api/user/:userId',userController.getUserById);
 router.delete('/api/user/:userId', userController.deleteUser);
 
 router.put('/api/user/:userId', userController.ValidateUser, userController.updateUser);
+
+router.get('/api/user', authController.validate, userController.getAllUsers)
+router.get('/api/user/:id', authController.validate, userController.getAllUsers)
 
 module.exports = router;

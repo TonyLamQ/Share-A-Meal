@@ -47,14 +47,14 @@ describe('Manage users /api/user', () => {
                 street:'Lombardijen',
                 city: 'Rotterdam',
                 password:'wa',
-                emailAddress:'wa'
+                emailAdress:'wa'
                 
             })
             .end((err, res)=>{
                 res.should.be.an('object');
                 let {status, results} = res.body;
                 status.should.equals(400);
-                results.should.be.a('string').that.equals('firstname is not found or must be a string');
+                results.should.be.a('string').that.equals('firstName is not found or must be a string');
                 done();
             })
         })
@@ -68,9 +68,11 @@ describe('Manage users /api/user', () => {
                 street:'Lombardijen',
                 city: 'Rotterdam',
                 password:'1234',
-                emailAddress:'J.Nacht@outlook.com'
+                emailAdress:'J.Nacht@outlook.com'
             })
             .end((err, res)=>{
+                console.log("res:"+res);
+                console.log("err"+err);
                 res.status.should.equals(200);
                 chai
                 .request(server)
@@ -81,7 +83,7 @@ describe('Manage users /api/user', () => {
                     street:'Lombardijen',
                     city: 'Rotterdam',
                     password:'1234',
-                    emailAddress:'J.Nacht@outlook.com'
+                    emailAdress:'J.Nacht@outlook.com'
                 })
                 .end((err2, res2)=> {
                     res2.should.be.an('object');
@@ -103,7 +105,7 @@ describe('Manage users /api/user', () => {
                 street:'Lombardijen',
                 city: 'Rotterdam',
                 password:'1234',
-                emailAddress:'J.Nacht@outlook.com'
+                emailAdress:'J.Nacht@outlook.com'
             })
             .end((err, res)=>{
                 res.should.be.an('object');
@@ -172,7 +174,7 @@ describe('Manage users /api/user', () => {
                 street:'Lombardijen',
                 city: 'Rotterdam',
                 password:'41221',
-                emailAddress:'J.Nacht@outlook.com'
+                emailAdress:'J.Nacht@outlook.com'
             })
             .end((err, res, req)=>{
                 const id = res.body.results.id;
@@ -200,7 +202,7 @@ describe('Manage users /api/user', () => {
                 street:'Lombardijen',
                 city: 'Rotterdam',
                 password:'41221',
-                emailAddress:'J.Nacht@outlook.com'
+                emailAdress:'J.Nacht@outlook.com'
             })
             .end((err, res, req)=>{
                 const id = res.body.results.id;
@@ -214,7 +216,7 @@ describe('Manage users /api/user', () => {
                     street:'Ambachtlaan',
                     city: 'Terneuzen',
                     password:'41221',
-                    emailAddress:'J.Kees@outlook.com'
+                    emailAdress:'J.Kees@outlook.com'
                 })
                 .end((err2, res2, req2)=>{
                     let {status, results} = res2.body;
@@ -234,7 +236,7 @@ describe('Manage users /api/user', () => {
                 street:'Ambachtlaan',
                 city: 'Terneuzen',
                 password:'41221',
-                emailAddress:'J.Kees@outlook.com'
+                emailAdress:'J.Kees@outlook.com'
             })
             .end((err2, res2, req2)=>{
                 let {status, results} = res2.body;
@@ -253,7 +255,7 @@ describe('Manage users /api/user', () => {
                 street:'Lombardijen',
                 city: 'Rotterdam',
                 password:'41221',
-                emailAddress:'J.Nacht@outlook.com'
+                emailAdress:'J.Nacht@outlook.com'
             })
             .end((err, res, req)=>{
                 const id = res.body.results.id;
@@ -267,7 +269,7 @@ describe('Manage users /api/user', () => {
                     street:'Ambachtlaan',
                     city: 'Terneuzen',
                     password:'41221',
-                    emailAddress:'J.Kees@outlook.com'
+                    emailAdress:'J.Kees@outlook.com'
                 })
                 .end((err2, res2, req2)=>{
                     let {status, results} = res2.body;
@@ -301,7 +303,7 @@ describe('Manage users /api/user', () => {
                 street:'Lombardijen',
                 city: 'Rotterdam',
                 password:'41221',
-                emailAddress:'J.Nacht@outlook.com'
+                emailAdress:'J.Nacht@outlook.com'
             })
             .end((err, res, req)=>{
                 const id = res.body.results.id;
