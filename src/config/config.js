@@ -9,6 +9,6 @@ const loglevel = (module.exports = {
             data.title = data.title.toUpperCase()
         },
         dateformat: 'isoUtcDateTime',
-        level: process.env.LOGLEVEL,
+        // level: process.env.LOGLEVEL,
     }),
 })
