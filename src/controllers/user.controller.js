@@ -42,7 +42,7 @@ let controller = {
          // Handle error after the release.
           if (error) {
             const error = {
-              status: 400,
+              status: 409,
               results: `The email: '${emailAddress}' already exists`,           
            }
            next(error);
@@ -58,8 +58,8 @@ let controller = {
             }
 
           if (results.affectedRows == 1){
-            res.status(200).json({
-              status: 200,
+            res.status(201).json({
+              status: 201,
               results: result,
             })
           } else {                   
@@ -76,11 +76,29 @@ let controller = {
     },
 
     getAllUsers:(req,res)=>{  
+
+      let { name, isActive } = req.query
+      console.log("waa"+name)
+      let queryString = `SELECT * FROM user`
+      if (name || isActive) {
+          queryString += ` WHERE `
+          if (name) {
+            name = `%` + name + `%`
+            queryString += `firstName LIKE '${name}'`
+              
+          }
+          if (name && isActive) queryString += ` AND `
+          if (isActive) {
+              queryString += `isActive = ${isActive}`
+          }
+      }
+      queryString += `;`
+      console.log(queryString)
       dbConn.getConnection(function(err, connection) {
         if (err) throw err; // not connected!
        
         // Use the connection
-        connection.query('SELECT * FROM user', function (error, results, fields) {
+        connection.query(queryString, function (error, results, fields) {
           // When done with the connection, release it.
           connection.release();
        
@@ -182,31 +200,45 @@ let controller = {
        
         // Use the connection
         const userId = Number(req.params.userId);
-          
-        connection.query(`DELETE FROM user WHERE id = ${userId}`, function (error, results, fields) {
-          // When done with the connection, release it.
-          connection.release();
-       
-          // Handle error after the release.
-          if (error) throw error;
-       
-          // Don't use the connection here, it has been returned to the pool.
-          console.log("Results = ", results.affectedRows);
-
-          if (results.affectedRows == 1){
-            res.status(200).json({
-              status: 200,
-              results: `User with ID ${userId} has been deleted.`,
-            })
-          } else {                   
-            const error = {
+        if(req.userId == userId){
+          connection.query(`DELETE FROM user WHERE id = ${userId}`, function (error, results, fields) {
+            // When done with the connection, release it.
+            connection.release();
+         
+            // Handle error after the release.
+            if (error) {
+              const error = {
                 status: 400,
-                results: `User with ID ${userId} not found.`,           
+                results: `U have to delete your meals first`,           
           }
           next(error);
+            }
+         
+            // Don't use the connection here, it has been returned to the pool.
+            console.log("Results = ", results.affectedRows);
+  
+            if (results.affectedRows == 1){
+              res.status(200).json({
+                status: 200,
+                results: `User with ID ${userId} has been deleted.`,
+              })
+            } else {                   
+              const error = {
+                  status: 400,
+                  results: `User with ID ${userId} not found.`,           
+            }
+            next(error);
+          }
+            
+          });
+        } else {
+          const error = {
+            status: 400,
+            results: `This user can only deleted by a user with id: `+userId + ` Current userId: ${req.userId}`,           
+      }
+      next(error);
         }
-          
-        });
+
       });
     },
 
