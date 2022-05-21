@@ -200,45 +200,60 @@ let controller = {
        
         // Use the connection
         const userId = Number(req.params.userId);
-        if(req.userId == userId){
-          connection.query(`DELETE FROM user WHERE id = ${userId}`, function (error, results, fields) {
-            // When done with the connection, release it.
-            connection.release();
-         
-            // Handle error after the release.
-            if (error) {
-              const error = {
-                status: 400,
-                results: `U have to delete your meals first`,           
-          }
-          next(error);
-            }
-         
-            // Don't use the connection here, it has been returned to the pool.
-            console.log("Results = ", results.affectedRows);
-  
-            if (results.affectedRows == 1){
-              res.status(200).json({
-                status: 200,
-                results: `User with ID ${userId} has been deleted.`,
-              })
-            } else {                   
-              const error = {
+
+
+        connection.query(`SELECT * FROM user WHERE id = '${userId}' `, function (error, results, fields) {
+
+        connection.release();    
+        if (error) throw error;
+        console.log(results.length)
+        if(results.length == 0){
+          const error = {
+              status: 404,
+              results: `User with ID ${userId} not found.`,           
+        }
+        next(error);
+        } else {
+          if(req.userId == userId){
+            connection.query(`DELETE FROM user WHERE id = ${userId}`, function (error2, results2, fields) {
+              // When done with the connection, release it.
+              connection.release();
+           
+              // Handle error after the release.
+              if (error2) {
+                const error = {
                   status: 400,
-                  results: `User with ID ${userId} not found.`,           
+                  results: `U have to delete your meals first`,           
             }
             next(error);
-          }
-            
-          });
-        } else {
-          const error = {
-            status: 400,
-            results: `This user can only deleted by a user with id: `+userId + ` Current userId: ${req.userId}`,           
-      }
-      next(error);
+              }
+           
+              // Don't use the connection here, it has been returned to the pool.
+              console.log("Results = ", results2.affectedRows);
+    
+              if (results2.affectedRows == 1){
+                res.status(200).json({
+                  status: 200,
+                  results: `User with ID ${userId} has been deleted.`,
+                })
+              } else {                   
+                const error = {
+                    status: 400,
+                    results: `User with ID ${userId} not found.`,           
+              }
+              next(error);
+            }
+              
+            });
+          } else {
+            const error = {
+              status: 400,
+              results: `This user can only deleted by a user with id: `+userId + ` Current userId: ${req.userId}`,           
         }
-
+        next(error);
+          }
+        }
+        });
       });
     },
 
