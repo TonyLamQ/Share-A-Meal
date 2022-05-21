@@ -7,8 +7,8 @@ const server = require('../../index');
 const assert = require('assert');
 require('dotenv').config();
 const dbConnection = require('../../database/dbConnection');
-const { expect } = require('chai');
-const { end } = require('../../database/dbConnection');
+const jwt = require('jsonwebtoken')
+const { jwtSecretKey, logger } = require('../../src/config/config')
 
 chai.should();
 chai.use(chaiHttp);
@@ -121,6 +121,7 @@ describe('Manage users /api/user', () => {
             chai
             .request(server)
             .get('/api/user')
+            .set("authorization", "Bearer " + jwt.sign({ userId: 1 }, jwtSecretKey))
             .send({
             })
             .end((err, res)=>{
