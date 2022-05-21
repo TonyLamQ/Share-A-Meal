@@ -1,6 +1,7 @@
 const dbConn = require('../../database/dbConnection')
 const assert = require('assert');
 const jwt = require('jsonwebtoken');
+const logger = require('../config/config').logger;
 const jwtSecretKey = require('../config/config').jwtSecretKey;
 
 let controller = {
@@ -31,7 +32,7 @@ let controller = {
                   const user = results[0]
                   const { password, ...userInfo } = user
                 if(user.password === password) {
-                    jwt.sign({ id: user.id }, jwtSecretKey, {expiresIn: '1h'}, function(err, token) {
+                    jwt.sign({ id: userInfo.id }, jwtSecretKey, {expiresIn: '1h'}, function(err, token) {
                         if(err) console.log(err)
                         if(token) {
                             console.log("Token: "+token)
@@ -107,12 +108,12 @@ let controller = {
     },
 
     validateToken(req, res, next) {
-        // logger.info('validateToken called')
-        // logger.trace(req.headers)
+        logger.info('validateToken called')
+        logger.trace(req.headers)
         // The headers should contain the authorization-field with value 'Bearer [token]'
         const authHeader = req.headers.authorization
         if (!authHeader) {
-            // logger.warn('Authorization header missing!')
+            logger.warn('Authorization header missing!')
             res.status(401).json({
                 error: 'Authorization header missing!',
                 datetime: new Date().toISOString(),
@@ -123,17 +124,17 @@ let controller = {
 
             jwt.verify(token, jwtSecretKey, (err, payload) => {
                 if (err) {
-                    // logger.warn('Not authorized')
+                    logger.warn('Not authorized')
                     res.status(401).json({
                         error: 'Not authorized',
                         datetime: new Date().toISOString(),
                     })
                 }
                 if (payload) {
-                    // logger.debug('token is valid', payload)
+                    logger.debug('token is valid', payload)
                     // User heeft toegang. Voeg UserId uit payload toe aan
                     // request, voor ieder volgend endpoint.
-                    req.userId = payload.userId
+                    req.userId = payload.id
                     next()
                 }
             })
