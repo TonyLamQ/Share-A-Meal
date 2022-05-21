@@ -48,7 +48,7 @@ describe('Manage users /api/user', () => {
                 lastName:'Nachtwacht',
                 street:'Lombardijen',
                 city: 'Rotterdam',
-                password:'wa',
+                password:'Watermelon123!',
                 emailAdress:'wa'
                 
             })
@@ -69,7 +69,7 @@ describe('Manage users /api/user', () => {
                 lastName:'Nachtwacht',
                 street:'Lombardijen',
                 city: 'Rotterdam',
-                password:'1234',
+                password:'Watermelon123!',
                 emailAdress:'J.Nacht@outlook.com'
             })
             .end((err, res)=>{
@@ -84,7 +84,7 @@ describe('Manage users /api/user', () => {
                     lastName:'Nachtwacht',
                     street:'Lombardijen',
                     city: 'Rotterdam',
-                    password:'1234',
+                    password:'Watermelon123!',
                     emailAdress:'J.Nacht@outlook.com'
                 })
                 .end((err2, res2)=> {
@@ -106,7 +106,7 @@ describe('Manage users /api/user', () => {
                 lastName:'Nachtwacht',
                 street:'Lombardijen',
                 city: 'Rotterdam',
-                password:'1234',
+                password:'Watermelon123!',
                 emailAdress:'J.Nacht@outlook.com'
             })
             .end((err, res)=>{
@@ -177,7 +177,7 @@ describe('Manage users /api/user', () => {
                 lastName:'Nachtwacht',
                 street:'Lombardijen',
                 city: 'Rotterdam',
-                password:'41221',
+                password:'Watermelon123!',
                 emailAdress:'J.Nacht@outlook.com'
             })
             .end((err, res, req)=>{
@@ -206,7 +206,7 @@ describe('Manage users /api/user', () => {
                 lastName:'Nachtwacht',
                 street:'Lombardijen',
                 city: 'Rotterdam',
-                password:'41221',
+                password:'Watermelon123!',
                 emailAdress:'J.Nacht@outlook.com'
             })
             .end((err, res, req)=>{
@@ -221,7 +221,7 @@ describe('Manage users /api/user', () => {
                     lastName:'Kees',
                     street:'Ambachtlaan',
                     city: 'Terneuzen',
-                    password:'41221',
+                    password:'Watermelon123!',
                     emailAdress:'J.Kees@outlook.com'
                 })
                 .end((err2, res2, req2)=>{
@@ -242,7 +242,7 @@ describe('Manage users /api/user', () => {
                 lastName:'Kees',
                 street:'Ambachtlaan',
                 city: 'Terneuzen',
-                password:'41221',
+                password:'Watermelon123!',
                 emailAdress:'J.Kees@outlook.com'
             })
             .end((err2, res2, req2)=>{
@@ -261,7 +261,7 @@ describe('Manage users /api/user', () => {
                 lastName:'Nachtwacht',
                 street:'Lombardijen',
                 city: 'Rotterdam',
-                password:'41221',
+                password:'Watermelon123!',
                 emailAdress:'J.Nacht@outlook.com'
             })
             .end((err, res, req)=>{
@@ -276,7 +276,7 @@ describe('Manage users /api/user', () => {
                     lastName:'Kees',
                     street:'Ambachtlaan',
                     city: 'Terneuzen',
-                    password:'41221',
+                    password:'Watermelon123!',
                     emailAdress:'J.Kees@outlook.com'
                 })
                 .end((err2, res2, req2)=>{
@@ -311,7 +311,7 @@ describe('Manage users /api/user', () => {
                 lastName:'Nachtwacht',
                 street:'Lombardijen',
                 city: 'Rotterdam',
-                password:'41221',
+                password:'Watermelon123!',
                 emailAdress:'J.Nacht@outlook.com'
             })
             .end((err, res, req)=>{

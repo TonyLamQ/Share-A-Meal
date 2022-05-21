@@ -45,7 +45,7 @@ describe('Manage Authentication /api/auth', () => {
             .post('/api/auth/login')
             .send({
                 // missing emailAdress
-                password:'secret'
+                password:'Watermelon123!'
                 
             })
             .end((err, res)=>{
@@ -63,7 +63,7 @@ describe('Manage Authentication /api/auth', () => {
             .post('/api/auth/login')
             .send({
                 emailadress:'john@yagoo.coo',
-                password:'secret'
+                password:'Watermelon123!'
                 
             })
             .end((err, res)=>{
@@ -84,7 +84,7 @@ describe('Manage Authentication /api/auth', () => {
                 lastName:'Nachtwacht',
                 street:'Lombardijen',
                 city: 'Rotterdam',
-                password:'1234',
+                password:'Watermelon123!',
                 emailAdress:'J.Nacht@outlook.com'
             })
             .end((err, res)=>{

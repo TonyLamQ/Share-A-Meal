@@ -87,6 +87,12 @@ let controller = {
     },
 
     validate: (req,res,next)=> {
+        const emailRegex = RegExp(
+            /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
+          );
+          const passwordRegex = RegExp(
+            /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/
+          );
         try {
             assert (
                 typeof req.body.emailAdress === 'string',
@@ -96,6 +102,8 @@ let controller = {
                 typeof req.body.password === 'string',
                 'password must be a string.'
             )
+            assert(emailRegex.test(emailAdress));
+            assert(passwordRegex.test(password));
             next()
         } catch(ex) {
             res.status(422).json({

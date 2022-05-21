@@ -5,6 +5,12 @@ const assert = require('assert');
 
 let controller = {
         ValidateUser:(req, res, next)=>{
+          const emailRegex = RegExp(
+            /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
+          );
+          const passwordRegex = RegExp(
+            /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/
+          );
             let user = req.body;
             let{firstName, lastName, street, city, password, emailAdress} = user;
             try{
@@ -14,6 +20,8 @@ let controller = {
                 assert(typeof city === 'string', 'city is not found or must be a string');
                 assert(typeof password === 'string', 'password is not found or must be a string');
                 assert(typeof emailAdress === 'string', 'emailAdress is not found or must be a string');
+                assert(emailRegex.test(emailAdress));
+                assert(passwordRegex.test(password));
                 next();
             } 
             catch(err) {
