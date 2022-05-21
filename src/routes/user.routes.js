@@ -14,10 +14,10 @@ router.get('/', (req, res) => {
 router.post('/api/user', userController.ValidateUser, userController.addUser);
 
 //Get a all users
-router.get('/api/user', userController.getAllUsers);
+router.get('/api/user', authController.validateToken, userController.getAllUsers)
 
 //Get a user profile(endpoint not realised yet)
-router.get('/api/user/profile', userController.getUserProfile);
+router.get('/api/user/profile', authController.validateToken, userController.getUserProfile);
 
 //Get specific user by id
 router.get('/api/user/:userId',userController.getUserById);
@@ -25,9 +25,7 @@ router.get('/api/user/:userId',userController.getUserById);
 //Delete a user by id
 router.delete('/api/user/:userId', userController.deleteUser);
 
+//Update specific user by id
 router.put('/api/user/:userId', userController.ValidateUser, userController.updateUser);
-
-// router.get('/api/user', authController.validate, userController.getAllUsers)
-// router.get('/api/user/:id', authController.validate, userController.getAllUsers)
 
 module.exports = router;

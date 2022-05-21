@@ -103,10 +103,40 @@ let controller = {
     },
 
     getUserProfile:(req,res)=>{  
-        res.status(401).json({
-        status: 401,
-        results: "End-Point is not realised.",
-      })
+      dbConn.getConnection(function(err, connection) {
+        if (err) throw err; // not connected!
+       
+        const userId = Number(req.userId)
+        // Use the connection
+        connection.query(`SELECT * FROM user WHERE id = ${userId}`, function (error, results, fields) {
+          // When done with the connection, release it.
+          connection.release();
+       
+          // Handle error after the release.
+          if (error) throw error;
+       
+          // Don't use the connection here, it has been returned to the pool.
+          console.log("Results = ", results.length);
+          if (results.length == 1){
+            res.status(200).json({
+              status: 200,
+              results: results
+            })
+          } else {                   
+            const error = {
+                status: 404,
+                results: `User with ID ${userId} not found.`,           
+          }
+          next(error);
+        }
+
+    
+          // pool.end((err) => {
+          //   console.log("pool was closed.");
+          //   });
+          
+        });
+      });
     },
 
     getUserById:(req,res, next)=>{
