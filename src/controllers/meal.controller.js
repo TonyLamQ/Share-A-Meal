@@ -35,34 +35,18 @@ let controller = {
       // Use the connection
       const name = req.body.name;
       const description =  req.body.description;
-      let isActive = req.body.isActive;
-        if(isActive){
-          isActive = 1;
-        } else {
-          isActive = 0;
-        }
-      let isVega = req.body.isVega;
-        if(isVega){
-          isActive = 1;
-        } else {
-          isActive = 0;
-        }
-      let isToTakeHome = req.body.isToTakeHome;
-        if(isToTakeHome){
-         isActive = 1;
-        } else {
-          isActive = 0;
-        }
+      const isActive = req.body.isActive;
+      const isVega = req.body.isVega;
+      const isToTakeHome = req.body.isToTakeHome;
       const dateTime = req.body.dateTime;
       const imageUrl = req.body.imageUrl;
       const allergenes = req.body.allergenes;
       const maxAmountOfParticipants = req.body.maxAmountOfParticipants;
       const price =req.body.price;
 
-      connection.query(`INSERT INTO meal (name, description, isActive, isVega, isToTakeHome, dateTime, imageUrl, allergenes, maxAmountOfParticipants, price) VALUES ('${name}','${description}','${isActive}','${isVega}','${isToTakeHome}','${dateTime}','${imageUrl}','${allergenes}','${maxAmountOfParticipants}','${price}')`, function (error, results, fields) {
+      connection.query(`INSERT INTO meal (name, description, isActive, isVega, isToTakeHome, dateTime, imageUrl, allergenes, maxAmountOfParticipants, price, cookId) VALUES ('${name}','${description}','${isActive}','${isVega}','${isToTakeHome}','${dateTime}','${imageUrl}','${allergenes}','${maxAmountOfParticipants}','${price}','${req.userId}')`, function (error, results, fields) {
       //Make foreign key with User and Meal.
       const mealId = results.insertId
-      connection.query(`INSERT INTO meal_participants_user (mealId, userId) VALUES ('${mealId}','${req.userId}')`);
        // When done with the connection, release it.
         connection.release();
        // Handle error after the release.
@@ -73,12 +57,13 @@ let controller = {
         console.log("Results = ", results.affectedRows);
         
           const result = { 
+            mealId,
             ...req.body
           }
 
         if (results.affectedRows == 1){
           res.status(200).json({
-            status: 200,
+            status: 201,
             results: result,
           })
         } else {                   
@@ -153,24 +138,9 @@ let controller = {
       const mealId = Number(req.params.mealId)
       const name = req.body.name;
       const description =  req.body.description;
-      let isActive = req.body.isActive;
-        if(isActive){
-          isActive = 1;
-        } else {
-          isActive = 0;
-        }
-      let isVega = req.body.isVega;
-        if(isVega){
-          isActive = 1;
-        } else {
-          isActive = 0;
-        }
-      let isToTakeHome = req.body.isToTakeHome;
-        if(isToTakeHome){
-         isActive = 1;
-        } else {
-          isActive = 0;
-        }
+      const isActive = req.body.isActive;
+      const isVega = req.body.isVega;
+      const isToTakeHome = req.body.isToTakeHome;
       const dateTime = req.body.dateTime;
       const imageUrl = req.body.imageUrl;
       const allergenes = req.body.allergenes;
@@ -229,68 +199,48 @@ let controller = {
      
       // Use the connection
       const mealId = Number(req.params.mealId)
-      const name = req.body.name;
-      const description =  req.body.description;
-      let isActive = req.body.isActive;
-        if(isActive){
-          isActive = 1;
-        } else {
-          isActive = 0;
-        }
-      let isVega = req.body.isVega;
-        if(isVega){
-          isActive = 1;
-        } else {
-          isActive = 0;
-        }
-      let isToTakeHome = req.body.isToTakeHome;
-        if(isToTakeHome){
-         isActive = 1;
-        } else {
-          isActive = 0;
-        }
-      const dateTime = req.body.dateTime;
-      const imageUrl = req.body.imageUrl;
-      const allergenes = req.body.allergenes;
-      const maxAmountOfParticipants = req.body.maxAmountOfParticipants;
-      const price =req.body.price;
-      connection.query(`SELECT * FROM meal_participants_user WHERE mealId = '${mealId}' `, function (error, results, fields) {
-        console.log("Meal is only accessible for user with id: "+results[0].userId);
-        if (error) {
-          connection.release();               
+
+      connection.query(`SELECT * FROM meal WHERE id = '${mealId}' `, function (error, results, fields) {
+
+        connection.release();    
+        if (error) throw error;
+        console.log(results.length)
+        if(results.length == 0){
           const error = {
-              status: 400,
+              status: 404,
               results: `Meal with ID ${mealId} not found.`,           
         }
         next(error);
-        }
-        if(req.userId == results[0].userId){
-          connection.query(`DELETE FROM meal WHERE id = '${mealId}'`, function (error2, results2, fields2) {
-            // When done with the connection, release it.
-            connection.release();
-         
-            // Handle error after the release.
-            if (error2) throw error;
-         
-            // Don't use the connection here, it has been returned to the pool.
-            console.log("Results = ", results2.affectedRows);
-            if (results2.affectedRows == 1){
-              res.status(200).json({
-                status: 200,
-                results: `Meal with id ${mealId} is successful deleted`,
-              })
-            } 
-            
-          });
         } else {
-          connection.release();               
-            const error = {
-                status: 400,
-                results: `Meal is only accessible for user with id: `+results[0].userId + ` Current userId: ${req.userId}`,           
-          }
-          next(error);
-        }
+          console.log("Meal is only accessible for user with id: "+results[0].cookId);
 
+          if(req.userId == results[0].cookId){
+            connection.query(`DELETE FROM meal WHERE id = '${mealId}'`, function (error2, results2, fields2) {
+              // When done with the connection, release it.
+              connection.release();
+           
+              // Handle error after the release.
+              if (error2) throw error;
+           
+              // Don't use the connection here, it has been returned to the pool.
+              console.log("Results = ", results2.affectedRows);
+              if (results2.affectedRows == 1){
+                res.status(200).json({
+                  status: 200,
+                  results: `Meal with id ${mealId} is successful deleted`,
+                })
+              } 
+              
+            });
+          } else {
+            connection.release();               
+              const error = {
+                  status: 403,
+                  results: `Meal is only accessible for user with id: `+results[0].cookId + ` Current userId: ${req.userId}`,           
+            }
+            next(error);
+          }
+        }
 
       });
     });

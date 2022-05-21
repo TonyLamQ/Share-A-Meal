@@ -10,22 +10,22 @@ router.get('/', (req, res) => {
   });
 });
 
-//Post an user if email isnt already taken
+//Post (Register) an user if email isnt already taken.
 router.post('/api/user', userController.ValidateUser, userController.addUser);
 
-//Get a all users
+//Get all users if logged in.
 router.get('/api/user', authController.validateToken, userController.getAllUsers)
 
-//Get a user profile(endpoint not realised yet)
+//Get your user profile.
 router.get('/api/user/profile', authController.validateToken, userController.getUserProfile);
 
-//Get specific user by id
-router.get('/api/user/:userId',userController.getUserById);
+//Get specific user by id if logged in.
+router.get('/api/user/:userId', authController.validateToken, userController.getUserById);
 
-//Delete a user by id
-router.delete('/api/user/:userId', userController.deleteUser);
+//Delete my user if logged in.
+router.delete('/api/user/:userId', authController.validateToken, userController.deleteUser);
 
-//Update specific user by id
-router.put('/api/user/:userId', userController.ValidateUser, userController.updateUser);
+//Update specific user by id if logged in.
+router.put('/api/user/:userId', authController.validateToken, userController.ValidateUser, userController.updateUser);
 
 module.exports = router;
