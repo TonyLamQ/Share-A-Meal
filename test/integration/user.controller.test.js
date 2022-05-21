@@ -17,7 +17,7 @@ const CLEAR_DB = 'DELETE IGNORE FROM `meal`; DELETE IGNORE FROM `meal_participan
 
 describe('Manage users /api/user', () => {
 
-    describe('UC-201 add user.',()=> {
+    describe('UC-200 users.',()=> {
         beforeEach((done) => {
             console.log('before each called');
 
@@ -75,7 +75,7 @@ describe('Manage users /api/user', () => {
             .end((err, res)=>{
                 console.log("res:"+res);
                 console.log("err"+err);
-                res.status.should.equals(200);
+                res.status.should.equals(201);
                 chai
                 .request(server)
                 .post('/api/user')
@@ -91,7 +91,7 @@ describe('Manage users /api/user', () => {
                     res2.should.be.an('object');
                     let {status, results} = res2.body;
                     console.log(res2.body);
-                    status.should.equals(400);
+                    status.should.equals(409);
                     results.should.be.a('string').that.equals(results);
                     done();
                 })
@@ -112,7 +112,7 @@ describe('Manage users /api/user', () => {
             .end((err, res)=>{
                 res.should.be.an('object');
                 let {status, results} = res.body;
-                status.should.equals(200);
+                status.should.equals(201);
                 results.should.be.an('object').that.equals(results);
                 done();
             })
@@ -157,6 +157,7 @@ describe('Manage users /api/user', () => {
             chai
             .request(server)
             .get('/api/user/3')
+            .set("authorization", "Bearer " + jwt.sign({ userId: 1 }, jwtSecretKey))
             .send({
             })
             .end((err, res, req)=>{
@@ -181,10 +182,11 @@ describe('Manage users /api/user', () => {
             })
             .end((err, res, req)=>{
                 const id = res.body.results.id;
-                res.status.should.equals(200);
+                res.status.should.equals(201);
                 chai
                 .request(server)
                 .get(`/api/user/${id}`)
+                .set("authorization", "Bearer " + jwt.sign({ userId: id }, jwtSecretKey))
                 .send({
                 })
                 .end((err2, res2, req2)=>{
@@ -209,10 +211,11 @@ describe('Manage users /api/user', () => {
             })
             .end((err, res, req)=>{
                 const id = res.body.results.id;
-                res.status.should.equals(200);
+                res.status.should.equals(201);
                 chai
                 .request(server)
                 .put(`/api/user/${id}`)
+                .set("authorization", "Bearer " + jwt.sign({ userId: id }, jwtSecretKey))
                 .send({
                     //missing firstName
                     lastName:'Kees',
@@ -233,6 +236,7 @@ describe('Manage users /api/user', () => {
             chai
             .request(server)
             .put(`/api/user/2`)
+            .set("authorization", "Bearer " + jwt.sign({ userId: 1 }, jwtSecretKey))
             .send({
                 //missing firstName
                 lastName:'Kees',
@@ -262,10 +266,11 @@ describe('Manage users /api/user', () => {
             })
             .end((err, res, req)=>{
                 const id = res.body.results.id;
-                res.status.should.equals(200);
+                res.status.should.equals(201);
                 chai
                 .request(server)
                 .put(`/api/user/${id}`)
+                .set("authorization", "Bearer " + jwt.sign({ userId: id }, jwtSecretKey))
                 .send({
                     firstName: 'Peter',
                     lastName:'Kees',
@@ -286,12 +291,13 @@ describe('Manage users /api/user', () => {
             chai
             .request(server)
             .delete('/api/user/3')
+            .set("authorization", "Bearer " + jwt.sign({ userId: 1 }, jwtSecretKey))
             .send({
             })
             .end((err, res, req)=>{
                 res.should.be.an('object');
                 let {status, results} = res.body;
-                status.should.equals(400);
+                status.should.equals(404);
                 results.should.be.an('string').that.equals(results);
                 done();
             })
@@ -310,19 +316,21 @@ describe('Manage users /api/user', () => {
             })
             .end((err, res, req)=>{
                 const id = res.body.results.id;
-                res.status.should.equals(200);
+                res.status.should.equals(201);
                 chai
                 .request(server)
                 .delete(`/api/user/${id}`)
+                .set("authorization", "Bearer " + jwt.sign({ userId: id }, jwtSecretKey))
                 .send({
                 })
                 .end((err2, res2, req2)=>{
                     let {status, results} = res2.body;
-                    status.should.equals(200);
+                    status.should.equals(400);
                     results.should.be.an('string').that.equals(results);
                     done();
                 })
             })
         })
+
     })
 })
