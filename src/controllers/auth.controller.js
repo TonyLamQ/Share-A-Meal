@@ -102,8 +102,8 @@ let controller = {
                 typeof req.body.password === 'string',
                 'password must be a string.'
             )
-            assert(emailRegex.test(emailAdress));
-            assert(passwordRegex.test(password));
+            assert(emailRegex.test(req.body.emailAdress));
+            assert(passwordRegex.test(req.body.password));
             next()
         } catch(ex) {
             res.status(422).json({

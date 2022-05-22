@@ -57,12 +57,12 @@ describe('Manage Authentication /api/auth', () => {
             })
         })
 
-        it('TC-101-2 Input nonExisting email', (done) => {
+        it('TC-101-2 Input invalid email', (done) => {
             chai
             .request(server)
             .post('/api/auth/login')
             .send({
-                emailadress:'john@yagoo.coo',
+                emailAdress:'watermeloen',
                 password:'Watermelon123!'
                 
             })
@@ -75,7 +75,43 @@ describe('Manage Authentication /api/auth', () => {
             })
         })
 
-        it('TC-101-3 Input wrong password', (done) => {
+        it('TC-101-3 Input invalid password', (done) => {
+            chai
+            .request(server)
+            .post('/api/auth/login')
+            .send({
+                emailAdress:'J.Nacht@outlook.com',
+                password:'wowinvalidpassword'
+                
+            })
+            .end((err, res)=>{
+                res.should.be.an('object');
+                let {status, results} = res.body;
+                status.should.equals(422);
+                results.should.be.a('string').that.equals(results);
+                done();
+            })
+        });
+
+        it('TC-101-4 User does not exist', (done) => {
+            chai
+            .request(server)
+            .post('/api/auth/login')
+            .send({
+                emailAdress:'J.Nacht@outlook.com',
+                password:'WaterMelon12!@'
+                
+            })
+            .end((err, res)=>{
+                res.should.be.an('object');
+                let {status, results} = res.body;
+                status.should.equals(404);
+                results.should.be.a('string').that.equals(results);
+                done();
+            })
+        });
+
+        it('TC-101-5 Successful logged in', (done) => {
             chai
             .request(server)
             .post('/api/user')
@@ -86,26 +122,29 @@ describe('Manage Authentication /api/auth', () => {
                 city: 'Rotterdam',
                 password:'Watermelon123!',
                 emailAdress:'J.Nacht@outlook.com'
-            })
-            .end((err, res)=>{
-                res.status.should.equals(201);
-            chai
-            .request(server)
-            .post('/api/auth/login')
-            .send({
-                emailAdress:'J.Nacht@outlook.com',
-                password:'secret'
-                
-            })
-            .end((err, res)=>{
-                res.should.be.an('object');
-                let {status, results} = res.body;
-                status.should.equals(200);
-                results.should.be.a('string').that.equals("wa");
-                done();
-            })
-        })
-    });
+              })
+               .end((err, res)=>{
+                  console.log("res:"+res);
+                  console.log("err"+err);
+                   res.status.should.equals(201);
+                  chai
+                  .request(server)
+                 .post('/api/auth/login')
+                 .send({
+                      emailAdress:'J.Nacht@outlook.com',
+                      password:'WaterMelon12!@'
+
+                 })
+                   .end((err, res)=>{
+                      res.should.be.an('object');
+                      let {status, results} = res.body;
+                       status.should.equals(200);
+                       results.should.be.an('object').that.equals(results);
+                       done();
+                    })
+                });
+            });
+        
 
 
     })

@@ -86,7 +86,6 @@ let controller = {
     getAllUsers:(req,res)=>{  
 
       let { name, isActive } = req.query
-      console.log("waa"+name)
       let queryString = `SELECT * FROM user`
       if (name || isActive) {
           queryString += ` WHERE `
