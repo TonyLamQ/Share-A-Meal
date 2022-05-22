@@ -144,7 +144,7 @@ describe('Manage Meals /api/meal', () => {
                     isActive: true,
                     isVega: true,
                     isToTakeHome: true,
-                    dateTime:'a',
+                    dateTime:'2022-03-22 17:35:00',
                     imageUrl:'a',
                     allergenes:'a',
                     maxAmountOfParticipants:'a',
