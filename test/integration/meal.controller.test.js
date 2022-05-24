@@ -329,6 +329,7 @@ describe('Manage Meals /api/meal', () => {
                     emailAdress:'P.Nacht@gmail.com'
                 })
                 .end((err, res)=>{
+                    assert.ifError(err)
                     const userId2 = res.body.results.id;
                     res.should.be.an('object');
                     let {status, results} = res.body;
