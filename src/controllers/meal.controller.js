@@ -206,11 +206,16 @@ let controller = {
                   status: 200,
                   results: result,
                 })
-              } 
+              } else {
+                const error = {
+                  status: 400,
+                  results: err,           
+            }
+            next(error);
+              }
               
             });
-          } else {
-            connection.release();               
+          } else {             
               const error = {
                   status: 400,
                   results: `Meal is only accessible for user with id: `+results[0].cookId + ` Current userId: ${req.userId}`,           
