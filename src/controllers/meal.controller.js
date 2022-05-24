@@ -178,6 +178,7 @@ let controller = {
       const maxAmountOfParticipants = req.body.maxAmountOfParticipants;
       const price =req.body.price;
       connection.query(`SELECT * FROM meal WHERE id = '${mealId}' `, function (error, results, fields) {
+        if (error) throw error;
         if (error || results.length ==0) {
           connection.release();               
           const error = {
@@ -193,7 +194,7 @@ let controller = {
               connection.release();
            
               // Handle error after the release.
-              if (error2) throw error;
+              if (error2) throw error2;
            
               // Don't use the connection here, it has been returned to the pool.
               console.log("Results = ", results2.affectedRows);
