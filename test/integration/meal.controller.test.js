@@ -298,95 +298,95 @@ describe('Manage Meals /api/meal', () => {
             })
         })
 
-        it('TC-302-3 Edit meal, Not the owner of meal ', (done) => {
-            chai
-            .request(server)
-            .post('/api/user')
-            .send({
-                firstName: 'Jan',
-                lastName:'Nachtwacht',
-                street:'Lombardijen',
-                city: 'Rotterdam',
-                password:'Watermelon123!',
-                emailAdress:'J.Nacht@outlook.com'
-            })
-            .end((err, res)=>{
-                assert.ifError(err)
-                const userId = res.body.results.id;
-                res.should.be.an('object');
-                let {status, results} = res.body;
-                status.should.equals(201);
-                results.should.be.an('object').that.equals(results);
-                chai
-                .request(server)
-                .post('/api/user')
-                .send({
-                    firstName: 'Peter',
-                    lastName:'Nachtwacht',
-                    street:'Lombardijen',
-                    city: 'Rotterdam',
-                    password:'Watermelon123!',
-                    emailAdress:'P.Nacht@gmail.com'
-                })
-                .end((err, res)=>{
-                    assert.ifError(err)
-                    const userId2 = res.body.results.id;
-                    res.should.be.an('object');
-                    let {status, results} = res.body;
-                    status.should.equals(201);
-                    results.should.be.an('object').that.equals(results);
-                chai
-                .request(server)
-                .post('/api/meal')
-                .set("authorization", "Bearer " + jwt.sign({ id: userId }, jwtSecretKey))
-                .send({
-                    name: 'Banana',
-                    description:'Its banana',
-                    isActive: true,
-                    isVega: true,
-                    isToTakeHome: true,
-                    dateTime:'2022-05-24T10:03:39.054Z',
-                    imageUrl:'a',
-                    allergenes:'lactose',
-                    maxAmountOfParticipants:12,
-                    price:4
-                })
-                .end((err, res)=>{
-                    assert.ifError(err)
-                    res.should.be.an('object');
-                    let {status, results} = res.body;
-                    status.should.equals(201);
-                    results.should.be.a('object').that.equals(results);
-                    const mealId = res.body.results.mealId;
-                    chai
-                .request(server)
-                .put(`/api/meal/${mealId}`)
-                .set("authorization", "Bearer " + jwt.sign({ id: userId2 }, jwtSecretKey))
-                .send({
-                    name: 'banana',
-                    description:'Its NEWbanana',
-                    isActive: true,
-                    isVega: true,
-                    isToTakeHome: true,
-                    dateTime:'2022-05-24T10:03:39.054Z',
-                    imageUrl:'a',
-                    allergenes:'noten',
-                    maxAmountOfParticipants:12,
-                    price:15
+    //     it('TC-302-3 Edit meal, Not the owner of meal ', (done) => {
+    //         chai
+    //         .request(server)
+    //         .post('/api/user')
+    //         .send({
+    //             firstName: 'Jan',
+    //             lastName:'Nachtwacht',
+    //             street:'Lombardijen',
+    //             city: 'Rotterdam',
+    //             password:'Watermelon123!',
+    //             emailAdress:'J.Nacht@outlook.com'
+    //         })
+    //         .end((err, res)=>{
+    //             assert.ifError(err)
+    //             const userId = res.body.results.id;
+    //             res.should.be.an('object');
+    //             let {status, results} = res.body;
+    //             status.should.equals(201);
+    //             results.should.be.an('object').that.equals(results);
+    //             chai
+    //             .request(server)
+    //             .post('/api/user')
+    //             .send({
+    //                 firstName: 'Peter',
+    //                 lastName:'Nachtwacht',
+    //                 street:'Lombardijen',
+    //                 city: 'Rotterdam',
+    //                 password:'Watermelon123!',
+    //                 emailAdress:'P.Nacht@gmail.com'
+    //             })
+    //             .end((err, res)=>{
+    //                 assert.ifError(err)
+    //                 const userId2 = res.body.results.id;
+    //                 res.should.be.an('object');
+    //                 let {status, results} = res.body;
+    //                 status.should.equals(201);
+    //                 results.should.be.an('object').that.equals(results);
+    //             chai
+    //             .request(server)
+    //             .post('/api/meal')
+    //             .set("authorization", "Bearer " + jwt.sign({ id: userId }, jwtSecretKey))
+    //             .send({
+    //                 name: 'Banana',
+    //                 description:'Its banana',
+    //                 isActive: true,
+    //                 isVega: true,
+    //                 isToTakeHome: true,
+    //                 dateTime:'2022-05-24T10:03:39.054Z',
+    //                 imageUrl:'a',
+    //                 allergenes:'lactose',
+    //                 maxAmountOfParticipants:12,
+    //                 price:4
+    //             })
+    //             .end((err, res)=>{
+    //                 assert.ifError(err)
+    //                 res.should.be.an('object');
+    //                 let {status, results} = res.body;
+    //                 status.should.equals(201);
+    //                 results.should.be.a('object').that.equals(results);
+    //                 const mealId = res.body.results.mealId;
+    //                 chai
+    //             .request(server)
+    //             .put(`/api/meal/${mealId}`)
+    //             .set("authorization", "Bearer " + jwt.sign({ id: userId2 }, jwtSecretKey))
+    //             .send({
+    //                 name: 'banana',
+    //                 description:'Its NEWbanana',
+    //                 isActive: true,
+    //                 isVega: true,
+    //                 isToTakeHome: true,
+    //                 dateTime:'2022-05-24T10:03:39.054Z',
+    //                 imageUrl:'a',
+    //                 allergenes:'noten',
+    //                 maxAmountOfParticipants:12,
+    //                 price:15
                     
-                })
-                .end((err, res)=>{
-                    assert.ifError(err)
-                    res.should.be.an('object');
-                    let {status, results} = res.body;
-                    status.should.equals(400);
-                    results.should.be.a('string').that.equals(results);
-                    done();
-                })
-                })
-            })
-        })
-    });
+    //             })
+    //             .end((err, res)=>{
+    //                 assert.ifError(err)
+    //                 res.should.be.an('object');
+    //                 let {status, results} = res.body;
+    //                 status.should.equals(400);
+    //                 results.should.be.a('string').that.equals(results);
+    //                 done();
+    //             })
+    //             })
+    //         })
+    //     })
+    // });
 
     it('TC-302-4 Edit meal, Meal is nonexisting ', (done) => {
         chai
