@@ -428,73 +428,72 @@ describe('Manage Meals /api/meal', () => {
         })
     })
 
-    it('TC-302-5 Edit meal, Success ', (done) => {
-        chai
-        .request(server)
-        .post('/api/user')
-        .send({
-            firstName: 'Jan',
-            lastName:'Nachtwacht',
-            street:'Lombardijen',
-            city: 'Rotterdam',
-            password:'Watermelon123!',
-            emailAdress:'J.Nacht@outlook.com'
-        })
-        .end((err, res)=>{
-            const userId = res.body.results.id;
-            res.should.be.an('object');
-            let {status, results} = res.body;
-            status.should.equals(201);
-            results.should.be.an('object').that.equals(results);
-            chai
-            .request(server)
-            .post('/api/meal')
-            .set("authorization", "Bearer " + jwt.sign({ id: userId }, jwtSecretKey))
-            .send({
-                name: 'Banana',
-                description:'Its banana',
-                isActive: true,
-                isVega: true,
-                isToTakeHome: true,
-                dateTime:'2022-05-24T10:03:39.054Z',
-                imageUrl:'a',
-                allergenes:'noten',
-                maxAmountOfParticipants:12,
-                price:12
-            })
-            .end((err, res)=>{
-                res.should.be.an('object');
-                let {status, results} = res.body;
-                status.should.equals(201);
-                results.should.be.a('object').that.equals(results);
-                const mealId = res.body.results.mealId;
-                chai
-            .request(server)
-            .put(`/api/meal/${mealId}`)
-            .set("authorization", "Bearer " + jwt.sign({ id: userId }, jwtSecretKey))
-            .send({
-                name: 'banana',
-                description:'Its NEWbanana',
-                isActive: true,
-                isVega: true,
-                isToTakeHome: true,
-                dateTime:'2022-05-24T10:03:39.054Z',
-                imageUrl:'a',
-                allergenes:'noten',
-                maxAmountOfParticipants:12,
-                price:12
-                
-            })
-            .end((err, res)=>{
-                res.should.be.an('object');
-                let {status, results} = res.body;
-                status.should.equals(200);
-                results.should.be.a('object').that.equals(results);
-                done();
-            })
-            })
-        })
-    });
+    // it('TC-302-5 Edit meal, Success ', (done) => {
+    //     chai
+    //     .request(server)
+    //     .post('/api/user')
+    //     .send({
+    //         firstName: 'Jan',
+    //         lastName:'Nachtwacht',
+    //         street:'Lombardijen',
+    //         city: 'Rotterdam',
+    //         password:'Watermelon123!',
+    //         emailAdress:'J.Nacht@outlook.com'
+    //     })
+    //     .end((err, res)=>{
+    //         const userId = res.body.results.id;
+    //         res.should.be.an('object');
+    //         let {status, results} = res.body;
+    //         status.should.equals(201);
+    //         results.should.be.an('object').that.equals(results);
+    //         chai
+    //         .request(server)
+    //         .post('/api/meal')
+    //         .set("authorization", "Bearer " + jwt.sign({ id: userId }, jwtSecretKey))
+    //         .send({
+    //             name: 'Banana',
+    //             description:'Its banana',
+    //             isActive: true,
+    //             isVega: true,
+    //             isToTakeHome: true,
+    //             dateTime:'2022-05-24T10:03:39.054Z',
+    //             imageUrl:'a',
+    //             allergenes:'noten',
+    //             maxAmountOfParticipants:12,
+    //             price:12
+    //         })
+    //         .end((err, res)=>{
+    //             res.should.be.an('object');
+    //             let {status, results} = res.body;
+    //             status.should.equals(201);
+    //             results.should.be.a('object').that.equals(results);
+    //             const mealId = res.body.results.mealId;
+    //             chai
+    //         .request(server)
+    //         .put(`/api/meal/${mealId}`)
+    //         .set("authorization", "Bearer " + jwt.sign({ id: userId }, jwtSecretKey))
+    //         .send({
+    //             name: 'banana',
+    //             description:'Its NEWbanana',
+    //             isActive: true,
+    //             isVega: true,
+    //             isToTakeHome: true,
+    //             dateTime:'2022-05-24T10:03:39.054Z',
+    //             imageUrl:'a',
+    //             allergenes:'noten',
+    //             maxAmountOfParticipants:12,
+    //             price:12
+    //         })
+    //         .end((err, res)=>{
+    //             res.should.be.an('object');
+    //             let {status, results} = res.body;
+    //             status.should.equals(200);
+    //             results.should.be.a('object').that.equals(results);
+    //             done();
+    //         })
+    //         })
+    //     })
+    // });
     it('TC-303-1 Return List of meals',(done)=>{
         chai
         .request(server)
