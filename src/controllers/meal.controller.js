@@ -178,6 +178,7 @@ let controller = {
       const maxAmountOfParticipants = req.body.maxAmountOfParticipants;
       const price =req.body.price;
       connection.query(`SELECT * FROM meal WHERE id = '${mealId}' `, function (error, results, fields) {
+        if(error) throw error;
         if (error || results.length ==0) {
           connection.release();               
           const error = {
