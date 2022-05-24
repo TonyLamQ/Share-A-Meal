@@ -14,8 +14,8 @@ let controller = {
         assert(typeof dateTime === 'string', 'dateTime is not found or must be a string');
         assert(typeof imageUrl === 'string', 'imageUrl is not found or must be a string');
         assert(typeof allergenes === 'string', 'allergenes is not found or must be a string');
-        assert(typeof maxAmountOfParticipants === 'string', 'maxAmountOfParticipants is not found or must be a string');
-        assert(typeof price === 'string', 'price is not found or must be a string');
+        assert(typeof maxAmountOfParticipants === 'int', 'maxAmountOfParticipants is not found or must be a int');
+        assert(typeof price === 'int', 'price is not found or must be a int');
         next();
     } 
     catch(err) {
