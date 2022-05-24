@@ -144,11 +144,11 @@ describe('Manage Meals /api/meal', () => {
                     isActive: true,
                     isVega: true,
                     isToTakeHome: true,
-                    dateTime:'2022-05-24T10:03:39.054Z',
+                    dateTime:'a',
                     imageUrl:'a',
-                    allergenes:'noten',
-                    maxAmountOfParticipants:1,
-                    price:12
+                    allergenes:'a',
+                    maxAmountOfParticipants:'a',
+                    price:'a'
                     
                 })
                 .end((err, res)=>{
@@ -189,11 +189,11 @@ describe('Manage Meals /api/meal', () => {
                     isActive: true,
                     isVega: true,
                     isToTakeHome: true,
-                    dateTime:'2022-05-24T10:03:39.054Z',
+                    dateTime:'a',
                     imageUrl:'a',
-                    allergenes:'noten',
-                    maxAmountOfParticipants:1,
-                    price:12
+                    allergenes:'a',
+                    maxAmountOfParticipants:'a',
+                    price:'a'
                     
                 })
                 .end((err, res)=>{
@@ -212,11 +212,11 @@ describe('Manage Meals /api/meal', () => {
                     isActive: true,
                     isVega: true,
                     isToTakeHome: true,
-                    dateTime:'2022-05-24T10:03:39.054Z',
+                    dateTime:'a',
                     imageUrl:'a',
-                    allergenes:'lactose',
-                    maxAmountOfParticipants:5,
-                    price:14
+                    allergenes:'a',
+                    maxAmountOfParticipants:'a',
+                    price:'a'
                     
                 })
                 .end((err, res)=>{
@@ -258,11 +258,11 @@ describe('Manage Meals /api/meal', () => {
                     isActive: true,
                     isVega: true,
                     isToTakeHome: true,
-                    dateTime:'2022-05-24T10:03:39.054Z',
+                    dateTime:'a',
                     imageUrl:'a',
-                    allergenes:'lactose',
-                    maxAmountOfParticipants:12,
-                    price:14
+                    allergenes:'a',
+                    maxAmountOfParticipants:'a',
+                    price:'a'
                     
                 })
                 .end((err, res)=>{
@@ -281,11 +281,11 @@ describe('Manage Meals /api/meal', () => {
                     isActive: true,
                     isVega: true,
                     isToTakeHome: true,
-                    dateTime:'2022-05-24T10:03:39.054Z',
+                    dateTime:'a',
                     imageUrl:'a',
-                    allergenes:'noten',
-                    maxAmountOfParticipants:3,
-                    price:12
+                    allergenes:'a',
+                    maxAmountOfParticipants:'a',
+                    price:'a'
                     
                 })
                 .end((err, res)=>{
@@ -298,7 +298,91 @@ describe('Manage Meals /api/meal', () => {
             })
         })
 
-//test302-3
+        it('TC-302-3 Edit meal, Not the owner of meal ', (done) => {
+            chai
+            .request(server)
+            .post('/api/user')
+            .send({
+                firstName: 'Jan',
+                lastName:'Nachtwacht',
+                street:'Lombardijen',
+                city: 'Rotterdam',
+                password:'Watermelon123!',
+                emailAdress:'J.Nacht@outlook.com'
+            })
+            .end((err, res)=>{
+                const userId = res.body.results.id;
+                res.should.be.an('object');
+                let {status, results} = res.body;
+                status.should.equals(201);
+                results.should.be.an('object').that.equals(results);
+                chai
+                .request(server)
+                .post('/api/user')
+                .send({
+                    firstName: 'Peter',
+                    lastName:'Nachtwacht',
+                    street:'Lombardijen',
+                    city: 'Rotterdam',
+                    password:'Watermelon123!',
+                    emailAdress:'P.Nacht@gmail.com'
+                })
+                .end((err, res)=>{
+                    const userId2 = res.body.results.id;
+                    res.should.be.an('object');
+                    let {status, results} = res.body;
+                    status.should.equals(201);
+                    results.should.be.an('object').that.equals(results);
+                chai
+                .request(server)
+                .post('/api/meal')
+                .set("authorization", "Bearer " + jwt.sign({ id: userId }, jwtSecretKey))
+                .send({
+                    name: 'Banana',
+                    description:'Its banana',
+                    isActive: true,
+                    isVega: true,
+                    isToTakeHome: true,
+                    dateTime:'a',
+                    imageUrl:'a',
+                    allergenes:'a',
+                    maxAmountOfParticipants:'a',
+                    price:'a'
+                })
+                .end((err, res)=>{
+                    res.should.be.an('object');
+                    let {status, results} = res.body;
+                    status.should.equals(201);
+                    results.should.be.a('object').that.equals(results);
+                    const mealId = res.body.results.mealId;
+                    chai
+                .request(server)
+                .put(`/api/meal/${mealId}`)
+                .set("authorization", "Bearer " + jwt.sign({ id: userId2 }, jwtSecretKey))
+                .send({
+                    name: 'banana',
+                    description:'Its NEWbanana',
+                    isActive: true,
+                    isVega: true,
+                    isToTakeHome: true,
+                    dateTime:'a',
+                    imageUrl:'a',
+                    allergenes:'a',
+                    maxAmountOfParticipants:'a',
+                    price:'a'
+                    
+                })
+                .end((err, res)=>{
+                    res.should.be.an('object');
+                    let {status, results} = res.body;
+                    status.should.equals(400);
+                    results.should.be.a('string').that.equals(results);
+                    done();
+                })
+                })
+            })
+        })
+    });
 
     it('TC-302-4 Edit meal, Meal is nonexisting ', (done) => {
         chai
@@ -328,11 +412,11 @@ describe('Manage Meals /api/meal', () => {
                 isActive: true,
                 isVega: true,
                 isToTakeHome: true,
-                dateTime:'2022-05-24T10:03:39.054Z',
+                dateTime:'a',
                 imageUrl:'a',
-                allergenes:'noten',
-                maxAmountOfParticipants:14,
-                price:15
+                allergenes:'a',
+                maxAmountOfParticipants:'a',
+                price:'a'
                 
             })
             .end((err, res)=>{
@@ -351,11 +435,11 @@ describe('Manage Meals /api/meal', () => {
                 isActive: true,
                 isVega: true,
                 isToTakeHome: true,
-                dateTime:'2022-05-24T10:03:39.054Z',
+                dateTime:'a',
                 imageUrl:'a',
-                allergenes:'lactose',
-                maxAmountOfParticipants:14,
-                price:16
+                allergenes:'a',
+                maxAmountOfParticipants:'a',
+                price:'a'
                 
             })
             .end((err, res)=>{
@@ -369,7 +453,7 @@ describe('Manage Meals /api/meal', () => {
         })
     })
 
-    it('TC-302-3 Edit meal, Not the owner of meal ', (done) => {
+    it('TC-302-5 Edit meal, Success ', (done) => {
         chai
         .request(server)
         .post('/api/user')
@@ -397,11 +481,11 @@ describe('Manage Meals /api/meal', () => {
                 isActive: true,
                 isVega: true,
                 isToTakeHome: true,
-                dateTime:'2022-05-24T10:03:39.054Z',
+                dateTime:'a',
                 imageUrl:'a',
-                allergenes:'noten',
-                maxAmountOfParticipants:41,
-                price:31
+                allergenes:'a',
+                maxAmountOfParticipants:'a',
+                price:'a'
             })
             .end((err, res)=>{
                 res.should.be.an('object');
@@ -419,11 +503,11 @@ describe('Manage Meals /api/meal', () => {
                 isActive: true,
                 isVega: true,
                 isToTakeHome: true,
-                dateTime:'2022-05-24T10:03:39.054Z',
+                dateTime:'a',
                 imageUrl:'a',
-                allergenes:'lactose',
-                maxAmountOfParticipants:14,
-                price:31
+                allergenes:'a',
+                maxAmountOfParticipants:'a',
+                price:'a'
                 
             })
             .end((err, res)=>{
@@ -496,11 +580,11 @@ describe('Manage Meals /api/meal', () => {
                 isActive: true,
                 isVega: true,
                 isToTakeHome: true,
-                dateTime:'2022-05-24T10:03:39.054Z',
+                dateTime:'a',
                 imageUrl:'a',
-                allergenes:'noten',
-                maxAmountOfParticipants:31,
-                price:21
+                allergenes:'a',
+                maxAmountOfParticipants:'a',
+                price:'a'
             })
             .end((err, res)=>{
                 res.should.be.an('object');
@@ -518,11 +602,11 @@ describe('Manage Meals /api/meal', () => {
                 isActive: true,
                 isVega: true,
                 isToTakeHome: true,
-                dateTime:'2022-05-24T10:03:39.054Z',
+                dateTime:'a',
                 imageUrl:'a',
-                allergenes:'lactose',
-                maxAmountOfParticipants:51,
-                price:21
+                allergenes:'a',
+                maxAmountOfParticipants:'a',
+                price:'a'
             })
             .end((err, res)=>{
                 res.should.be.an('object');
@@ -563,11 +647,11 @@ describe('Manage Meals /api/meal', () => {
                 isActive: true,
                 isVega: true,
                 isToTakeHome: true,
-                dateTime:'2022-05-24T10:03:39.054Z',
+                dateTime:'a',
                 imageUrl:'a',
-                allergenes:'noten',
-                maxAmountOfParticipants:13,
-                price:51
+                allergenes:'a',
+                maxAmountOfParticipants:'a',
+                price:'a'
             })
             .end((err, res)=>{
                 res.should.be.an('object');
@@ -585,11 +669,11 @@ describe('Manage Meals /api/meal', () => {
                 isActive: true,
                 isVega: true,
                 isToTakeHome: true,
-                dateTime:'2022-05-24T10:03:39.054Z',
+                dateTime:'a',
                 imageUrl:'a',
-                allergenes:'lactose',
-                maxAmountOfParticipants:12,
-                price:41
+                allergenes:'a',
+                maxAmountOfParticipants:'a',
+                price:'a'
             })
             .end((err, res)=>{
                 res.should.be.an('object');
@@ -646,11 +730,11 @@ describe('Manage Meals /api/meal', () => {
                 isActive: true,
                 isVega: true,
                 isToTakeHome: true,
-                dateTime:'2022-05-24T10:03:39.054Z',
+                dateTime:'a',
                 imageUrl:'a',
-                allergenes:'lactose',
-                maxAmountOfParticipants:12,
-                price:31
+                allergenes:'a',
+                maxAmountOfParticipants:'a',
+                price:'a'
             })
             .end((err, res)=>{
                 res.should.be.an('object');
@@ -668,11 +752,11 @@ describe('Manage Meals /api/meal', () => {
                 isActive: true,
                 isVega: true,
                 isToTakeHome: true,
-                dateTime:'2022-05-24T10:03:39.054Z',
+                dateTime:'a',
                 imageUrl:'a',
-                allergenes:'noten',
-                maxAmountOfParticipants:12,
-                price:21
+                allergenes:'a',
+                maxAmountOfParticipants:'a',
+                price:'a'
                 
             })
             .end((err, res)=>{
@@ -715,11 +799,11 @@ it('TC-305-2 Delete Meal, Not logged in',(done)=>{
             isActive: true,
             isVega: true,
             isToTakeHome: true,
-            dateTime:'2022-05-24T10:03:39.054Z',
+            dateTime:'a',
             imageUrl:'a',
-            allergenes:'lactose',
-            maxAmountOfParticipants:12,
-            price:31
+            allergenes:'a',
+            maxAmountOfParticipants:'a',
+            price:'a'
         })
         .end((err, res)=>{
             res.should.be.an('object');
@@ -737,11 +821,11 @@ it('TC-305-2 Delete Meal, Not logged in',(done)=>{
             isActive: true,
             isVega: true,
             isToTakeHome: true,
-            dateTime:'2022-05-24T10:03:39.054Z',
+            dateTime:'a',
             imageUrl:'a',
-            allergenes:'lactose',
-            maxAmountOfParticipants:12,
-            price:31
+            allergenes:'a',
+            maxAmountOfParticipants:'a',
+            price:'a'
         })
         .end((err, res)=>{
             res.should.be.an('object');
