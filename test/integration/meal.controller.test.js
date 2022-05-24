@@ -311,6 +311,7 @@ describe('Manage Meals /api/meal', () => {
                 emailAdress:'J.Nacht@outlook.com'
             })
             .end((err, res)=>{
+                assert.ifError(err)
                 const userId = res.body.results.id;
                 res.should.be.an('object');
                 let {status, results} = res.body;
@@ -350,6 +351,7 @@ describe('Manage Meals /api/meal', () => {
                     price:4
                 })
                 .end((err, res)=>{
+                    assert.ifError(err)
                     res.should.be.an('object');
                     let {status, results} = res.body;
                     status.should.equals(201);
