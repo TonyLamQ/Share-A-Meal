@@ -53,9 +53,7 @@ let controller = {
       } else {
         isToTakeHome = 0;
       }
-      let dateTime = req.body.dateTime;
-      //test
-      dateTime = body.dateTime.replace("T", " ").substring(0, 19)
+      const dateTime = req.body.dateTime;
       const imageUrl = req.body.imageUrl;
       const allergenes = req.body.allergenes;
       const maxAmountOfParticipants = req.body.maxAmountOfParticipants;
