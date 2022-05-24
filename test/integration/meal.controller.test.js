@@ -373,6 +373,7 @@ describe('Manage Meals /api/meal', () => {
                     
                 })
                 .end((err, res)=>{
+                    assert.ifError(err)
                     res.should.be.an('object');
                     let {status, results} = res.body;
                     status.should.equals(400);
